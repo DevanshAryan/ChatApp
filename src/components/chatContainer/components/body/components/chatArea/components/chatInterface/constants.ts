@@ -1,0 +1,22 @@
+export const MESSAGES = [
+  { id: "1", sender: "me", content: "Hello!", timestamp: "9:00 AM" },
+  { id: "2", sender: "other", content: "Hi there!", timestamp: "9:01 AM" },
+  { id: "3", sender: "me", content: "Message 2", timestamp: "9:02 AM" },
+  { id: "4", sender: "other", content: "Message 3", timestamp: "9:03 AM" },
+  { id: "5", sender: "me", content: "Message 4", timestamp: "9:04 AM" },
+  { id: "6", sender: "other", content: "Message 5", timestamp: "9:05 AM" },
+  { id: "7", sender: "me", content: "Message 6", timestamp: "9:06 AM" },
+  { id: "8", sender: "other", content: "Message 7", timestamp: "9:07 AM" },
+  { id: "9", sender: "me", content: "Message 8", timestamp: "9:08 AM" },
+  { id: "10", sender: "other", content: "Message 9", timestamp: "9:09 AM" },
+  { id: "11", sender: "me", content: "Message 10", timestamp: "9:10 AM" },
+  { id: "12", sender: "other", content: "Message 11", timestamp: "9:11 AM" },
+  { id: "13", sender: "me", content: "Message 12", timestamp: "9:12 AM" },
+  { id: "14", sender: "other", content: "Message 13", timestamp: "9:13 AM" },
+  { id: "15", sender: "me", content: "Message 14", timestamp: "9:14 AM" },
+  { id: "16", sender: "other", content: "Message 15", timestamp: "9:15 AM" },
+  { id: "17", sender: "me", content: "Message 16", timestamp: "9:16 AM" },
+  { id: "18", sender: "other", content: "Message 17", timestamp: "9:17 AM" },
+  { id: "19", sender: "me", content: "Message 18", timestamp: "9:18 AM" },
+];
+
