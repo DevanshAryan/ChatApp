@@ -18,32 +18,3 @@ const App = (): React.ReactElement => (
 );
 
 export default App;
-
-
-// react element
-/*
-
-{/* <App>
-  <Header user={user} />
-  <Body chatIds={chatIds}> ->selected Id state
-      <Sidebar > 
-        <AllChatSection />
-      <Sidebar/>
-      <ChatArea  chatId={chatID}/> input box state -> message state, 
-  </Body>
-</App> 
-
-
-// HEADER COMPLETE STYLING
-
-// Sidebar
-
-
-
-// AllMessages={
-//   id:mesage
-// }
-
-// chatId
-
-*/

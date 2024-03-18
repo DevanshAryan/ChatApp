@@ -1,5 +1,5 @@
 // libs
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useCallback } from "react";
 
 // component
 import { Input } from "@sprinklrjs/spaceweb/input";
@@ -10,10 +10,10 @@ import { Box } from "@sprinklrjs/spaceweb/box";
 import { Message } from "../../types";
 
 export const SendMessage = ({
-  onMessageSend,
+    onSendMessage,
   className
 }: {
-  onMessageSend: (message: Message) => void;
+    onSendMessage: (message: Message) => void;
   className:string
 }) => {
   const [text, setText] = useState("");
@@ -21,7 +21,7 @@ export const SendMessage = ({
     setText(e.target.value);
   };
 
-  const handleOnClick = () => {
+  const handleOnClick = useCallback(() => {
     if(text==='')
     return;
     
@@ -36,20 +36,19 @@ export const SendMessage = ({
       }),
       id: new Date().toLocaleTimeString(),
     };
-    onMessageSend(newMessage); //name
-  };
+    onSendMessage(newMessage);
+  },[text]);
 
   return (
     <Box
       className={className}
     >
       <Input
+        placeholder="Type a message"
         onChange={handleOnChange}
         value={text}
-        className="" // use gap instead of padding
       />
       <Button
-        // intent="ai"
         onClick={handleOnClick}
         variant="secondary"
         size="xxs"

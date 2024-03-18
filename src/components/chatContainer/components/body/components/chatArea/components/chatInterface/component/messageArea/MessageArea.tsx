@@ -1,10 +1,11 @@
 // libs
 import { useEffect, useRef } from "react";
 
-// component
+// components
 import { Box } from "@sprinklrjs/spaceweb/box";
 import { DisplayMessage } from "./DisplayMessage";
 import { ClassName } from "@sprinklrjs/spaceweb";
+
 // types
 import { Message } from "../../types";
 
@@ -16,7 +17,7 @@ export const MessageArea = ({className,messages}:{className:ClassName,messages:M
     },[messages]);
 
   return (
-  <Box ref={ref} className={[className,{maxHeight:"78vh"}]}>
+  <Box ref={ref} className={[className,{maxHeight:"79vh"}]}>
     {messages.map((message) => (
       <DisplayMessage // Message
         key={message.id}

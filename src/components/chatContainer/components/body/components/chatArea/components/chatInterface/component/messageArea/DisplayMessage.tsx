@@ -1,10 +1,12 @@
 // libs
 import { ReactElement } from "react";
 
-// component
+// components
 import { Box } from "@sprinklrjs/spaceweb/box";
+import { ClassName } from "@sprinklrjs/spaceweb";
 
 
+const me:ClassName=["self-end spr-clr-blue rounded-lg p-3",{backgroundColor:"#E9EBFA"}];
 
 const Me = ({ content, timestamp }: { content: string; timestamp: string }):ReactElement => (
   <Box className="">
@@ -30,7 +32,7 @@ export const DisplayMessage = ({
   const isMe = sender === "me";
 
   return (
-    <Box className={isMe?"self-end border spr-clr-blue rounded-md p-3 " : "self-start border spr-clr-blue rounded-md p-3"}>
+    <Box className={isMe?["self-end spr-clr-blue rounded-lg p-3",{backgroundColor:"#E9EBFA"}]:["self-start spr-field rounded-lg p-3",{backgroundColor:"#F5F5F5"}]}>
       <Box className="text-16">
         {content}
       </Box>
