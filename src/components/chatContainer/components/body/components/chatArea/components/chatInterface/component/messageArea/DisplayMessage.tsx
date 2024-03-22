@@ -1,42 +1,39 @@
 // libs
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
 
 // components
 import { Box } from "@sprinklrjs/spaceweb/box";
-import { ClassName } from "@sprinklrjs/spaceweb";
+
+// context
+import { userContext } from "../../../../../../../../../../App";
 
 
-const me:ClassName=["self-end spr-clr-blue rounded-lg p-3",{backgroundColor:"#E9EBFA"}];
+type Sender={
+  id:string,
+  name:string
+}
 
-const Me = ({ content, timestamp }: { content: string; timestamp: string }):ReactElement => (
-  <Box className="">
-    <Box className={["text-16"]}>
-        {content}
-    </Box>
-    <Box className="">
-        {timestamp}
-    </Box>
-  </Box>
-);
-
-
-export const DisplayMessage = ({
+export const Message = ({
+  isGroupChat,
   sender,
   content,
   timestamp,
 }: {
-  sender: string;
+  isGroupChat:boolean|undefined
+  sender: Sender;
   content: string;
   timestamp: string;
 }):ReactElement => {
-  const isMe = sender === "me";
+  const {user}=useContext(userContext);
+  const isMe = sender.name === user?.name;
 
   return (
-    <Box className={isMe?["self-end spr-clr-blue rounded-lg p-3",{backgroundColor:"#E9EBFA"}]:["self-start spr-field rounded-lg p-3",{backgroundColor:"#F5F5F5"}]}>
-      <Box className="text-16">
+    <Box className={isMe?["self-end flex flex-col spr-clr-blue rounded-lg p-3",{backgroundColor:"#E9EBFA",maxWidth:"75%"}]:["self-start spr-field rounded-lg p-3",{backgroundColor:"#F5F5F5",maxWidth:"75%"}]}>
+      {isGroupChat && sender.name !== 'Alice' ? <Box> ~ {sender.name}</Box> : null}
+      <Box className="pt-1 text-16">
         {content}
       </Box>
-      <Box className="mt-1">
+      <Box className={`pt-1 self-end`}>
         {timestamp}
       </Box>
     </Box>

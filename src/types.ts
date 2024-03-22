@@ -3,6 +3,7 @@ export type User = {
     id: string;
     chatIds: string[];
     profileImage: string;
+    password:string
 };
 
 export type Chat = {

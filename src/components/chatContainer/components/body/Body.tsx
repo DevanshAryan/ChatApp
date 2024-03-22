@@ -1,25 +1,25 @@
 // libs
-import { ReactElement , useMemo, useState } from "react";
+import { ReactElement , useCallback, useContext, useState } from "react";
 
-// component
+// components
 import { Box } from "@sprinklrjs/spaceweb/box";
 import { Sidebar } from "./components/sidebar";
 import { ChatArea } from "./components/chatArea";
+import { userContext } from "../../../../App";
 
-import { user } from "../../constants";
-import { chats } from "../../constants";
+
 export const Body = ():ReactElement => {
-  const findChatName = useMemo(()=>(user.chatIds.flatMap((chatId) => chats.filter((chat) => chat.id === chatId))
-  ),[user.chatIds]);
-  const [selectedChat,setSelectedChat]=useState("chat1");
+  const {user}=useContext(userContext);
+  const [selectedChat,setSelectedChat]=useState(user?.chatIds[0]);
 
-  const handleOnChange=(chatId:string)=>{
+  const onSelectedChat=useCallback((chatId:string)=>{ 
     setSelectedChat(chatId);
-  }
+  },[selectedChat]);
+  
   return (
-  <Box className="rounded-4 flex items-stretch border-0 border-t border-solid spr-border-03 ">
-    <Sidebar selectedChat={selectedChat} handleOnChange={handleOnChange} className={"flex flex-1 flex-col gap-1"}/>
-    <ChatArea selectedChat={selectedChat}/>
+  <Box className="rounded-4 flex items-stretch border-0 border-t border-solid spr-border-03 max-h-screen max-w-full">
+    <Sidebar selectedChat={selectedChat} handleOnChange={onSelectedChat} className={"flex-1"}/>
+    <ChatArea key={selectedChat} className={{flex:"4"}} selectedChat={selectedChat}/>
   </Box>
   )
 };

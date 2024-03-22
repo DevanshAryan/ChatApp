@@ -1,80 +1,106 @@
 // libs
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useCallback, useContext , useMemo } from "react";
 
 // Components
 import { Box } from "@sprinklrjs/spaceweb/box";
 import { Image } from "@sprinklrjs/spaceweb/image";
 import { List, ListItem } from "@sprinklrjs/spaceweb/list";
+import { Typography } from "@sprinklrjs/spaceweb/typography";
 
-// constants
-import { chats } from "../../../../../../constants";
-import { user } from "../../../../../../constants";
+// types
+import {ClassName} from "@sprinklrjs/spaceweb/types";
+import { Chat } from "../../../../../../../../types";
 
-const Chats = ({
-  onClick,
-  name,
-  id,
+// utils
+import { findChats, isGroupChat } from "./utils";
+
+// context
+import { userContext } from "../../../../../../../../App";
+
+const css:ClassName=[
+  "pr-1 px-1 py-0 hover:cursor-pointer",
+  { backgroundColor:"#F5F5F5",overflowY:"hidden"},
+  "hover:overflow-y-auto"
+];
+
+const FilteredChats=({chats,selectedChat,onChange}:{chats:Chat[]|undefined,selectedChat?:string,onChange: (chatId: string) => void;})=>{
+  return (
+    <List
+      className={css}
+    >
+    {chats?.map((chat) => (
+      <ListItem
+        className={["px-0 py-0", { backgroundColor: "#F5F5F5" }]}
+        key={chat.id}
+      >
+         <ChatItem
+          onChatItemClick={onChange}
+          chat={chat}
+          isSelected={selectedChat === chat.id}
+        />
+      </ListItem>
+    ))}
+
+
+</List>
+  )
+}
+const ChatItem = ({
+  onChatItemClick,
+  chat,
   isSelected,
 }: {
-  OnClick: (chatId: string) => void;
-  name: string;
-  id: string;
+  onChatItemClick: (chatId: string) => void;
+  chat:Chat,
   isSelected: boolean;
-}) => (
+}) => {
+  const handleOnClick=useCallback(()=>{
+    onChatItemClick(chat.id);
+  },[chat]);
+
+  const css=["py-3 pl-3 flex items-center gap-3"];
+  return (
   <Box
-    onClick={() => {
-      onClick(id);
-    }}
-    className={
-      isSelected
-        ? "h-12 flex items-center gap-3 spr-ui-01"
-        : "h-12 flex items-center gap-3 hover:spr-ui-01"
-    }
+    onClick={handleOnClick}
+    className={[css,isSelected
+      ? "spr-ui-01"
+      : "hover:spr-ui-01"]}
   >
     <Image
-      className="ml-3 h-8 w-8 rounded-full"
+      className="h-8 w-8 rounded-full"
       src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2018/01/12201051/cute-puppy-body-image.jpg"
       alt="Cute doggo"
     />
-    <Box className="pt-3 text-16 self-start">{name}</Box>
+    <Box className="text-16">{chat.name}</Box>  
   </Box>
 );
+  }
 
-export const ChatSection = ({
+
+export const ChatList = ({
   selectedChat,
   onChange,
 }: {
-  selectedChat: string;
-  onChange: (chatId: string) => string;
+  selectedChat?: string;
+  onChange: (chatId: string) => void;
 }): ReactElement => {
-  const findChatName = useMemo(
-    () =>
-      user.chatIds.flatMap((chatId) =>
-        chats.filter((chat) => chat.id === chatId)
-      ),
-    [user.chatIds]
-  );
+  const {user}=useContext(userContext);
+  const allChats=useMemo(()=>findChats(user?.chatIds),[user]);
+  const groupChat=allChats?.filter(chat=>isGroupChat(chat.memberIds.length));
+  const personalChat=allChats?.filter(chat=>!isGroupChat(chat.memberIds.length));
+
+  
 
   return (
-    <List
-      className={[
-        "mr-1 px-1 hover:cursor-pointer",
-        { backgroundColor: "#F5F5F5" },
-      ]}
-    >
-      {findChatName.map((chat) => (
-        <ListItem
-          className={["px-0", { backgroundColor: "#F5F5F5" }]}
-          key={chat.id}
-        >
-          <Chats
-            onClick={onChange}
-            id={chat.id}
-            name={chat.name}
-            isSelected={selectedChat === chat.id}
-          />
-        </ListItem>
-      ))}
-    </List>
+      <Box className={css}>
+        <Box >
+          <Typography className="m-0 p-3" variant="display-20">Personal Chats</Typography>
+          <FilteredChats chats={personalChat} onChange={onChange} selectedChat={selectedChat}/>
+        </Box>
+        {groupChat?.length?<Box>
+          <Typography  className="m-0 p-3" variant="display-20">Group Chats</Typography>
+          <FilteredChats chats={groupChat} onChange={onChange} selectedChat={selectedChat}/>
+        </Box>:null}
+      </Box>
   );
 };

@@ -1,1 +1,1 @@
-export {ChatSection} from './ChatSection'
+export {ChatList} from './ChatSection'

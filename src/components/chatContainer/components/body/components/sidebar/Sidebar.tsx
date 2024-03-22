@@ -3,19 +3,17 @@ import { ReactElement } from "react";
 
 // component
 import { Box } from "@sprinklrjs/spaceweb/box";
-import { ChatSection } from "./component/chatSection";
+import { ChatList } from "./component/chatSection";
+import { Typography } from "@sprinklrjs/spaceweb/typography";
 
 // types
 import {ClassName} from '@sprinklrjs/spaceweb/types';
 
-export const Sidebar = ({selectedChat,handleOnChange,className}:{selectedChat:string,handleOnChange:(chatId:string)=>void,className:ClassName}):ReactElement => (
-  <Box className={[className,{backgroundColor:"#F5F5F5"}]}>
-    <Box className="typography-h2 px-4 py-3 border-0 border-b border-solid spr-border-03">
-      Chat
+export const Sidebar = ({selectedChat,handleOnChange,className}:{selectedChat?:string,handleOnChange:(chatId:string)=>void,className?:ClassName}):ReactElement => (
+  <Box className={[{backgroundColor:"#F5F5F5",height:"93.5vh"},"flex flex-col",className,]}>
+    <Box className="px-4 py-3 border-0 border-b border-solid spr-border-03">
+      <Typography className="m-0 p-0"variant="display-24" weight="bold">Chat</Typography>
     </Box>
-    <ChatSection selectedChat={selectedChat} onChange={handleOnChange}/>
+    <ChatList selectedChat={selectedChat} onChange={handleOnChange}/>
   </Box>
 );
-
-
-// {flex:"1",display:"flex",flexDirection:"column"},"gap-1"]
